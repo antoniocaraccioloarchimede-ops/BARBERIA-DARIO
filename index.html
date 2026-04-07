@@ -21,19 +21,26 @@
         * { 
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
+            box-sizing: border-box;
+        }
+        
+        html, body { 
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
         }
         
         body { 
             background: var(--bg); 
             color: var(--text); 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            margin: 0; 
-            padding: 0;
-            padding-bottom: calc(80px + var(--safe-bottom));
+            padding-bottom: calc(100px + var(--safe-bottom));
+            overflow-x: hidden;
         }
         
+        /* HEADER */
         nav { 
-            background: rgba(0,0,0,0.95); 
+            background: rgba(0,0,0,0.98); 
             padding: 12px 16px; 
             display: flex; 
             justify-content: space-between; 
@@ -44,14 +51,14 @@
             left: 0;
             right: 0;
             z-index: 1000;
-            backdrop-filter: blur(10px);
+            height: 56px;
         }
         
         .logo { 
             color: var(--gold); 
             font-weight: 900; 
             letter-spacing: 1px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
         
         .nav-btn { 
@@ -62,52 +69,62 @@
             cursor: pointer; 
             font-weight: 800;
             font-size: 0.8rem;
-            box-shadow: 0 4px 15px rgba(212,175,55,0.3);
+            color: #000;
         }
 
+        /* CONTAINER PRINCIPALE */
         .container { 
-            max-width: 100%; 
+            width: 100%;
+            max-width: 100%;
             margin: 0; 
-            padding: 70px 12px 20px;
+            padding: 72px 12px 20px;
         }
         
-        .view { display: none; }
-        .active { display: block; }
+        .view { 
+            display: none; 
+            width: 100%;
+        }
+        .active { 
+            display: block; 
+        }
 
+        /* CARD */
         .card { 
             background: var(--card); 
-            border-radius: 20px; 
-            padding: 20px; 
+            border-radius: 16px; 
+            padding: 16px; 
             border: 1px solid #333; 
-            margin-bottom: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            margin-bottom: 12px;
+            width: 100%;
         }
         
         .card h2 {
-            font-size: 1.3rem;
-            margin: 0 0 20px 0;
+            font-size: 1.2rem;
+            margin: 0 0 16px 0;
+            text-align: center;
+            color: var(--gold);
         }
         
         .label { 
             color: var(--gold); 
-            font-size: 12px; 
-            font-weight: 800; 
+            font-size: 11px; 
+            font-weight: 700; 
             text-transform: uppercase; 
-            margin: 16px 0 8px; 
+            margin: 12px 0 6px; 
             display: block;
             letter-spacing: 0.5px;
         }
         
         input, select {
             width: 100%; 
-            padding: 16px; 
+            padding: 14px; 
             background: #222; 
             border: 2px solid #333; 
             color: #fff; 
-            border-radius: 12px; 
-            margin-bottom: 12px; 
-            box-sizing: border-box;
+            border-radius: 10px; 
+            margin-bottom: 10px; 
             font-size: 16px;
+            -webkit-appearance: none;
         }
         
         input:focus {
@@ -115,15 +132,16 @@
             border-color: var(--gold);
         }
 
+        /* SERVIZI - SCROLL ORIZZONTALE */
         .service-scroll {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             overflow-x: auto;
-            padding: 4px 4px 12px;
-            margin: 0 -4px;
+            padding: 4px 0 12px;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
+            width: 100%;
         }
         
         .service-scroll::-webkit-scrollbar {
@@ -132,12 +150,12 @@
         
         .service-btn { 
             flex: 0 0 auto;
-            min-width: 160px;
+            width: 140px;
             background: #1a1a1a; 
             border: 2px solid #333; 
             color: white; 
-            padding: 16px; 
-            border-radius: 16px; 
+            padding: 14px 10px; 
+            border-radius: 14px; 
             cursor: pointer; 
             text-align: center;
             scroll-snap-align: start;
@@ -151,38 +169,41 @@
         .service-btn.active { 
             border-color: var(--gold); 
             background: linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(212,175,55,0.05) 100%);
-            box-shadow: 0 0 20px rgba(212,175,55,0.2);
         }
         
         .service-btn b { 
             display: block; 
             color: var(--gold);
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin-bottom: 4px;
         }
         
         .service-btn span {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #888;
         }
 
+        /* SLOT ORARI - GRIGLIA 4 COLONNE */
         .slot-grid { 
             display: grid; 
             grid-template-columns: repeat(4, 1fr); 
-            gap: 8px; 
+            gap: 6px; 
+            width: 100%;
         }
         
         .slot { 
             background: #000; 
             border: 2px solid #222; 
-            padding: 12px 4px; 
+            padding: 10px 2px; 
             text-align: center; 
-            border-radius: 10px; 
+            border-radius: 8px; 
             cursor: pointer; 
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
-            transition: all 0.15s;
-            position: relative;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .slot:active {
@@ -192,9 +213,7 @@
         .slot.selected { 
             background: var(--gold); 
             color: #000; 
-            font-weight: 800;
             border-color: var(--gold);
-            box-shadow: 0 4px 15px rgba(212,175,55,0.4);
         }
         
         .slot.busy {
@@ -210,18 +229,20 @@
             border-color: #333355;
             color: #555577;
             pointer-events: none;
-            font-size: 11px;
+            font-size: 10px;
         }
 
+        /* BOTTONE FISSO BASSO */
         .btn-container {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 16px;
-            padding-bottom: calc(16px + var(--safe-bottom));
-            background: linear-gradient(to top, rgba(10,10,10,1) 0%, rgba(10,10,10,0.9) 100%);
+            padding: 12px;
+            padding-bottom: calc(12px + var(--safe-bottom));
+            background: linear-gradient(to top, rgba(10,10,10,1) 0%, rgba(10,10,10,0.95) 100%);
             z-index: 999;
+            border-top: 1px solid #333;
         }
         
         .btn-confirm { 
@@ -229,13 +250,11 @@
             background: var(--gold); 
             color: #000; 
             border: none; 
-            padding: 18px; 
-            border-radius: 16px; 
+            padding: 16px; 
+            border-radius: 14px; 
             font-weight: 900; 
             cursor: pointer;
-            font-size: 1.1rem;
-            box-shadow: 0 4px 20px rgba(212,175,55,0.3);
-            transition: transform 0.1s;
+            font-size: 1rem;
         }
         
         .btn-confirm:active {
@@ -245,60 +264,60 @@
         .btn-confirm:disabled {
             background: #333;
             color: #666;
-            box-shadow: none;
         }
 
+        /* ADMIN */
         .admin-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
         
         .admin-header h3 {
             margin: 0;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
         
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 16px;
         }
         
         .stat-box {
             background: #1a1a1a;
-            padding: 16px;
+            padding: 14px;
             border-radius: 12px;
             text-align: center;
             border: 1px solid #333;
         }
         
         .stat-number {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 900;
             color: var(--gold);
         }
         
         .stat-label {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: #888;
             text-transform: uppercase;
             margin-top: 4px;
         }
 
         .day-group { 
-            margin-bottom: 20px; 
+            margin-bottom: 16px; 
             border: 1px solid #333; 
-            border-radius: 16px; 
+            border-radius: 14px; 
             overflow: hidden;
             background: var(--card);
         }
         
         .day-header { 
-            background: linear-gradient(135deg, #222 0%, #1a1a1a 100%);
-            padding: 14px 16px; 
+            background: #222;
+            padding: 12px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
@@ -309,21 +328,21 @@
             color: var(--gold); 
             font-weight: 800; 
             text-transform: uppercase; 
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
         
         .day-stats { 
             background: var(--gold); 
             color: black; 
-            padding: 4px 10px; 
-            border-radius: 20px; 
-            font-size: 0.75rem; 
+            padding: 3px 8px; 
+            border-radius: 12px; 
+            font-size: 0.7rem; 
             font-weight: 900;
         }
 
         .app-item { 
             background: #161616; 
-            padding: 16px; 
+            padding: 14px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
@@ -332,21 +351,24 @@
         
         .app-item:last-child { border-bottom: none; }
         
-        .app-info { flex: 1; }
+        .app-info { flex: 1; min-width: 0; }
         
         .app-time {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 800;
             color: white;
         }
         
         .app-name {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             margin-top: 2px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         
         .app-service {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: #888;
             margin-top: 2px;
         }
@@ -354,138 +376,142 @@
         .app-price {
             color: var(--gold);
             font-weight: 900;
-            font-size: 1.1rem;
-            margin-right: 12px;
+            font-size: 1rem;
+            margin-right: 8px;
+            white-space: nowrap;
         }
 
         .btn-del { 
             background: var(--danger); 
             border: none; 
             color: white; 
-            width: 36px;
-            height: 36px;
-            border-radius: 10px; 
+            width: 32px;
+            height: 32px;
+            border-radius: 8px; 
             cursor: pointer; 
-            font-size: 18px;
+            font-size: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
         
         .btn-del.blue { background: var(--blue); }
 
         .db-item { 
             background: #1a1a1a; 
-            padding: 14px; 
-            margin-bottom: 10px; 
-            border-radius: 12px; 
+            padding: 12px; 
+            margin-bottom: 8px; 
+            border-radius: 10px; 
             border: 1px solid #333;
             display: flex; 
             justify-content: space-between; 
             align-items: center;
         }
         
-        .db-item b { color: var(--gold); }
+        .db-item b { color: var(--gold); font-size: 0.95rem; }
         
-        .db-actions { display: flex; gap: 8px; }
+        .db-actions { display: flex; gap: 6px; }
 
+        /* MODAL */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.95);
             display: none;
             align-items: flex-end;
             z-index: 2000;
-            padding: 20px;
+            padding: 10px;
         }
         
         .modal-overlay.active { display: flex; }
         
         .modal-content {
             background: var(--card);
-            border-radius: 24px;
-            padding: 24px;
+            border-radius: 20px;
+            padding: 20px;
             width: 100%;
-            max-height: 90vh;
+            max-height: 85vh;
             overflow-y: auto;
             border: 1px solid #444;
         }
         
         .modal-title {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 800;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             text-align: center;
+            color: var(--gold);
         }
 
         .empty-state {
             text-align: center;
-            padding: 40px;
+            padding: 30px;
             color: #666;
         }
         
         .empty-state-icon {
-            font-size: 3rem;
-            margin-bottom: 16px;
-            opacity: 0.5;
+            font-size: 2.5rem;
+            margin-bottom: 12px;
         }
 
         .summary-box {
             background: rgba(212,175,55,0.1);
             border: 2px solid var(--gold);
-            border-radius: 16px;
-            padding: 16px;
-            margin: 16px 0;
+            border-radius: 14px;
+            padding: 14px;
+            margin: 14px 0;
         }
         
         .summary-row {
             display: flex;
             justify-content: space-between;
-            margin: 8px 0;
-            font-size: 0.95rem;
+            margin: 6px 0;
+            font-size: 0.9rem;
         }
         
         .summary-total {
             border-top: 1px solid var(--gold);
-            margin-top: 12px;
-            padding-top: 12px;
+            margin-top: 10px;
+            padding-top: 10px;
             font-weight: 800;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
         
         .duration-hint {
             background: #1a1a1a;
-            padding: 10px 14px;
+            padding: 10px;
             border-radius: 10px;
             margin: 10px 0;
-            font-size: 0.85rem;
-            color: #888;
-            text-align: center;
-            border: 1px solid #333;
-        }
-        
-        .duration-hint.active {
+            font-size: 0.8rem;
             color: var(--gold);
-            border-color: var(--gold);
-            background: rgba(212,175,55,0.1);
+            text-align: center;
+            border: 1px solid var(--gold);
         }
 
         .sync-status {
             position: fixed;
-            top: 70px;
+            top: 60px;
             right: 10px;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.9);
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 11px;
             color: var(--gold);
-            z-index: 999;
+            z-index: 998;
             opacity: 0;
             transition: opacity 0.3s;
+            border: 1px solid var(--gold);
         }
         
         .sync-status.show {
             opacity: 1;
+        }
+
+        /* TITOLI SEZIONI */
+        h3 {
+            font-size: 1rem;
+            margin: 20px 0 12px;
         }
     </style>
 </head>
@@ -500,9 +526,10 @@
 
 <div class="container">
 
+    <!-- VISTA CLIENTE -->
     <div id="clientView" class="view active">
-        <div class="card" style="margin-bottom: 100px;">
-            <h2 style="text-align:center; color:var(--gold)">Prenota Ora</h2>
+        <div class="card" style="margin-bottom: 80px;">
+            <h2>Prenota Ora</h2>
             
             <label class="label">Il tuo nome</label>
             <input type="text" id="custName" placeholder="Mario Rossi" autocomplete="name">
@@ -517,7 +544,7 @@
             <label class="label">Quando?</label>
             <input type="date" id="custDate" onchange="loadSlots()">
             
-            <label class="label">Orario (slot ogni 15 min)</label>
+            <label class="label">Orario disponibile</label>
             <div id="slotGrid" class="slot-grid"></div>
             
             <div id="summaryBox" class="summary-box" style="display: none;">
@@ -530,7 +557,7 @@
                     <span id="sumDate">-</span>
                 </div>
                 <div class="summary-row">
-                    <span>Ora inizio:</span>
+                    <span>Ora:</span>
                     <span id="sumTime">-</span>
                 </div>
                 <div class="summary-row">
@@ -539,14 +566,15 @@
                 </div>
                 <div class="summary-row summary-total">
                     <span>Totale:</span>
-                    <span id="sumPrice" style="color: var(--gold);">€0</span>
+                    <span id="sumPrice">€0</span>
                 </div>
             </div>
         </div>
         
-        <div style="height: 100px;"></div>
+        <div style="height: 80px;"></div>
     </div>
 
+    <!-- VISTA ADMIN -->
     <div id="adminView" class="view">
         
         <div class="stats-grid">
@@ -563,12 +591,12 @@
         <div class="card">
             <div class="admin-header">
                 <h3 style="color:var(--success)">📋 Servizi</h3>
-                <button onclick="openServiceModal()" class="nav-btn" style="padding: 8px 14px; font-size: 0.75rem;">+ NUOVO</button>
+                <button onclick="openServiceModal()" class="nav-btn" style="padding: 8px 12px; font-size: 0.75rem;">+ NUOVO</button>
             </div>
             <div id="dbList"></div>
         </div>
 
-        <h3 style="color:var(--gold); margin: 24px 0 16px; font-size: 1.1rem;">📅 Prossimi Appuntamenti</h3>
+        <h3 style="color:var(--gold);">📅 Prossimi Appuntamenti</h3>
         <div id="adminAgenda"></div>
         
         <div style="height: 40px;"></div>
@@ -584,28 +612,29 @@
 
 <div class="modal-overlay" id="serviceModal" onclick="closeModal(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
-        <div class="modal-title" style="color: var(--gold);">Gestisci Servizio</div>
+        <div class="modal-title">Gestisci Servizio</div>
         <input type="hidden" id="editId">
-        <label class="label">Nome servizio</label>
-        <input type="text" id="newSName" placeholder="es. Taglio + Barba">
-        <div style="display:flex; gap:12px;">
+        <label class="label">Nome servizio *</label>
+        <input type="text" id="newSName" placeholder="es. Taglio">
+        <div style="display:flex; gap:10px;">
             <div style="flex:1">
-                <label class="label">Prezzo €</label>
-                <input type="number" id="newSPrice" placeholder="25">
+                <label class="label">Prezzo € *</label>
+                <input type="number" id="newSPrice" placeholder="20">
             </div>
             <div style="flex:1">
-                <label class="label">Minuti</label>
+                <label class="label">Minuti *</label>
                 <input type="number" id="newSDuration" placeholder="30" step="15" min="15">
             </div>
         </div>
-        <button class="btn-confirm" style="margin-top: 20px;" onclick="saveService()">💾 Salva Servizio</button>
-        <button class="btn-confirm" style="background: #333; color: #888; margin-top: 10px;" onclick="closeModal()">Annulla</button>
+        <p style="color: #666; font-size: 0.75rem; margin: 8px 0;">* campi obbligatori</p>
+        <button class="btn-confirm" style="margin-top: 12px;" onclick="saveService()">💾 Salva Servizio</button>
+        <button class="btn-confirm" style="background: #333; color: #888; margin-top: 8px;" onclick="closeModal()">Annulla</button>
     </div>
 </div>
 
 <script>
     // ==========================================
-    // LA TUA CONFIGURAZIONE FIREBASE
+    // CONFIGURAZIONE FIREBASE - LA TUA
     // ==========================================
     const firebaseConfig = {
         apiKey: "AIzaSyANxYpIqye8gjCJdu-LboxX4OA6AB_0T8E",
@@ -649,7 +678,7 @@
     }
 
     // ==========================================
-    // SINCRONIZZAZIONE FIREBASE
+    // FIREBASE SYNC
     // ==========================================
     
     servicesRef.on('value', (snapshot) => {
@@ -710,8 +739,7 @@
                 selectedS = s; 
                 
                 document.getElementById('durationHint').style.display = 'block';
-                document.getElementById('durationHint').classList.add('active');
-                document.getElementById('durationText').textContent = `${s.duration} minuti (occupa ${s.duration / 15} slot)`;
+                document.getElementById('durationText').textContent = `${s.duration} min (occupa ${s.duration / 15} slot)`;
                 
                 loadSlots();
             };
@@ -719,13 +747,13 @@
 
             dbList.innerHTML += `
                 <div class="db-item">
-                    <div>
+                    <div style="overflow: hidden;">
                         <b>${s.name}</b>
-                        <div style="font-size: 0.85rem; color: #888; margin-top: 2px;">€${s.price} • ${s.duration}min</div>
+                        <div style="font-size: 0.8rem; color: #888;">€${s.price} • ${s.duration}min</div>
                     </div>
                     <div class="db-actions">
                         <button class="btn-del blue" onclick="editService('${s.firebaseKey}')">✎</button>
-                        <button class="btn-del" onclick="deleteService('${s.firebaseKey}')">🗑</button>
+                        <button class="btn-del" onclick="deleteService('${s.firebaseKey}')">×</button>
                     </div>
                 </div>`;
         });
@@ -746,30 +774,51 @@
         }
     }
 
+    // ==========================================
+    // BUG FIX: Salva servizio con validazione corretta
+    // ==========================================
     function saveService() {
         const firebaseKey = document.getElementById('editId').value;
         const name = document.getElementById('newSName').value.trim();
-        const price = parseInt(document.getElementById('newSPrice').value);
-        const dur = parseInt(document.getElementById('newSDuration').value);
+        const priceVal = document.getElementById('newSPrice').value;
+        const durVal = document.getElementById('newSDuration').value;
         
-        if(!name || !price || !dur) {
-            alert("Compila tutti i campi");
+        // Validazione
+        if(!name) {
+            alert("Inserisci il nome del servizio");
+            document.getElementById('newSName').focus();
             return;
         }
         
-        const roundedDur = Math.ceil(dur / 15) * 15;
-        const newId = firebaseKey ? parseInt(firebaseKey.replace(/\D/g,'')) || Date.now() : Date.now();
+        if(!priceVal || priceVal <= 0) {
+            alert("Inserisci un prezzo valido");
+            document.getElementById('newSPrice').focus();
+            return;
+        }
+        
+        if(!durVal || durVal <= 0) {
+            alert("Inserisci una durata valida");
+            document.getElementById('newSDuration').focus();
+            return;
+        }
+        
+        const price = parseInt(priceVal);
+        const dur = parseInt(durVal);
+        
+        // Arrotonda ai 15 min
+        const roundedDur = Math.max(15, Math.ceil(dur / 15) * 15);
         
         const serviceData = {
-            id: newId,
             name: name,
             price: price,
             duration: roundedDur
         };
         
         if(firebaseKey) {
-            servicesRef.child(firebaseKey).set(serviceData);
+            // Modifica esistente
+            servicesRef.child(firebaseKey).update(serviceData);
         } else {
+            // Nuovo servizio
             const newKey = 'serv' + Date.now();
             servicesRef.child(newKey).set(serviceData);
         }
@@ -788,7 +837,7 @@
     }
 
     function deleteService(key) {
-        if(confirm("Eliminare questo servizio?")) {
+        if(confirm("Eliminare " + services.find(s => s.firebaseKey === key)?.name + "?")) {
             servicesRef.child(key).remove();
         }
     }
@@ -828,7 +877,6 @@
             
             const div = document.createElement('div');
             div.className = "slot";
-            div.innerText = timeStr;
             
             if (isBusy) {
                 div.classList.add('busy');
@@ -836,8 +884,8 @@
             } else if (!hasSpace) {
                 div.classList.add('blocked');
                 div.innerText = "•";
-                div.title = "Spazio insufficiente";
             } else {
+                div.innerText = timeStr;
                 div.onclick = () => {
                     document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
                     div.classList.add('selected'); 
@@ -894,6 +942,7 @@
             createdAt: Date.now()
         });
         
+        // Reset
         document.getElementById('custName').value = "";
         document.getElementById('custDate').value = "";
         selectedS = null;
@@ -903,7 +952,7 @@
         document.getElementById('slotGrid').innerHTML = "";
         updateSummary();
         
-        alert("✓ Prenotazione salvata su cloud!");
+        alert("✓ Prenotazione salvata!");
     }
 
     function updateAdmin() {
@@ -959,9 +1008,9 @@
                         <div class="app-info">
                             <div class="app-time">${a.time} - ${endTime}</div>
                             <div class="app-name">${a.name}</div>
-                            <div class="app-service">${a.service} (${a.duration}min)</div>
+                            <div class="app-service">${a.service}</div>
                         </div>
-                        <div style="display:flex; align-items:center; gap:12px;">
+                        <div style="display:flex; align-items:center; gap:8px;">
                             <span class="app-price">€${a.price}</span>
                             <button class="btn-del" onclick="deleteApp('${a.firebaseKey}')">×</button>
                         </div>
@@ -975,7 +1024,7 @@
     }
 
     function deleteApp(key) {
-        if(confirm("Eliminare questo appuntamento?")) { 
+        if(confirm("Eliminare appuntamento?")) { 
             appointmentsRef.child(key).remove();
         }
     }
