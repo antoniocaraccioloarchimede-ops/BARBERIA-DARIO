@@ -48,83 +48,135 @@
             padding: var(--safe-top) 0 calc(100px + var(--safe-bottom)) 0;
         }
         
-        /* GUIDA INSTALLAZIONE iOS - SEMPRE VISIBILE INIZIALMENTE */
+        /* GUIDA DETTAGLIATA iOS */
         .install-guide {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.98);
+            background: var(--bg);
             z-index: 100000;
             display: none;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
             padding: 20px;
-            text-align: center;
+            overflow-y: auto;
         }
         
         .install-guide.show {
             display: flex;
         }
         
-        .install-guide h3 {
-            color: var(--gold);
-            font-size: 1.4rem;
+        .install-guide-header {
+            text-align: center;
             margin-bottom: 30px;
+            padding-top: 20px;
         }
         
-        .install-step {
-            background: var(--card);
-            border: 2px solid var(--gold);
-            border-radius: 16px;
-            padding: 20px;
-            margin: 10px 0;
-            width: 100%;
-            max-width: 320px;
+        .install-guide h2 {
+            color: var(--gold);
+            font-size: 1.5rem;
+            margin: 0 0 10px 0;
         }
         
-        .install-step .icon {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-        
-        .install-step p {
-            margin: 0;
+        .install-guide-subtitle {
+            color: #888;
             font-size: 1rem;
-            line-height: 1.4;
+        }
+
+        .step-container {
+            background: var(--card);
+            border: 2px solid #333;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
         }
         
-        .install-guide .close-guide {
-            margin-top: 30px;
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: var(--gold);
+            color: #000;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1rem;
+        }
+        
+        .step-icon {
+            font-size: 3rem;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .step-title {
+            color: var(--gold);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .step-desc {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #ccc;
+            text-align: center;
+        }
+        
+        .step-detail {
+            background: #1a1a1a;
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 12px;
+            font-size: 0.9rem;
+            color: #888;
+            border-left: 3px solid var(--gold);
+        }
+        
+        .arrow-down {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--gold);
+            margin: 10px 0;
+        }
+
+        .close-guide-btn {
             background: var(--gold);
             color: #000;
             border: none;
-            padding: 15px 40px;
+            padding: 18px 40px;
             border-radius: 30px;
-            font-weight: 800;
+            font-weight: 900;
             font-size: 1.1rem;
             cursor: pointer;
+            margin: 20px auto;
+            display: block;
         }
 
-        /* Banner fisso iOS in alto */
+        /* Banner iOS sotto l'header */
         .ios-banner {
             position: fixed;
-            top: max(60px, var(--safe-top));
+            top: 70px;
             left: 10px;
             right: 10px;
-            background: var(--gold);
+            background: linear-gradient(135deg, var(--gold) 0%, #b8941f 100%);
             color: #000;
-            padding: 12px 16px;
-            border-radius: 12px;
-            z-index: 9999;
+            padding: 14px 16px;
+            border-radius: 14px;
+            z-index: 999;
             display: none;
             align-items: center;
             justify-content: space-between;
-            font-weight: 600;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 20px rgba(212,175,55,0.3);
         }
         
         .ios-banner.show {
@@ -135,11 +187,10 @@
             background: #000;
             color: var(--gold);
             border: none;
-            padding: 8px 16px;
+            padding: 10px 18px;
             border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.8rem;
-            margin-left: 10px;
+            font-weight: 800;
+            font-size: 0.85rem;
         }
 
         /* Banner Android */
@@ -195,7 +246,7 @@
             align-items: center;
             gap: 8px;
         }
-        
+
         .nav-btn { 
             background: var(--gold); 
             border: none; 
@@ -627,10 +678,10 @@
 </head>
 <body>
 
-<!-- Banner iOS fisso -->
+<!-- Banner iOS -->
 <div class="ios-banner" id="iosBanner">
-    <span>📲 Installa questa app sul tuo iPhone</span>
-    <button onclick="showInstallGuide()">COME FARE</button>
+    <span>📲 Installa questa app</span>
+    <button onclick="showInstallGuide()">COME SI FA?</button>
 </div>
 
 <!-- Banner Android -->
@@ -639,26 +690,65 @@
     <button onclick="installPWA()">INSTALLA</button>
 </div>
 
-<!-- Guida Installazione iOS -->
+<!-- GUIDA DETTAGLIATA iOS -->
 <div class="install-guide" id="installGuide">
-    <h3>Come installare su iPhone</h3>
-    
-    <div class="install-step">
-        <div class="icon">1️⃣</div>
-        <p>Tocca il pulsante <b>Condivisi</b><br>(il quadrato con la freccia in basso)</p>
+    <div class="install-guide-header">
+        <h2>📱 Installa su iPhone</h2>
+        <p class="install-guide-subtitle">Segui questi 3 passaggi</p>
     </div>
-    
-    <div class="install-step">
-        <div class="icon">2️⃣</div>
-        <p>Scorri il menu e seleziona<br><b>"Aggiungi a Home"</b></p>
+
+    <!-- PASSO 1 -->
+    <div class="step-container">
+        <div class="step-number">1</div>
+        <div class="step-icon">⬆️</div>
+        <div class="step-title">Tocca il pulsante CONDIVIDI</div>
+        <div class="step-desc">
+            È il pulsante con il <b>quadrato e la freccia</b> che punta in su
+        </div>
+        <div class="step-detail">
+            📍 Si trova in <b>fondo allo schermo</b> nella barra di Safari (icona ⬆️ in un quadrato)
+        </div>
     </div>
-    
-    <div class="install-step">
-        <div class="icon">3️⃣</div>
-        <p>Tocca <b>"Aggiungi"</b> in alto a destra</p>
+
+    <div class="arrow-down">⬇️</div>
+
+    <!-- PASSO 2 -->
+    <div class="step-container">
+        <div class="step-number">2</div>
+        <div class="step-icon">📲</div>
+        <div class="step-title">Scorri e seleziona AGGIUNGI A HOME</div>
+        <div class="step-desc">
+            Nel menu che si apre, <b>scorri verso il basso</b> fino a trovare l'opzione
+        </div>
+        <div class="step-detail">
+            📍 L'icona è un <b>+</b> dentro un quadrato, con scritto "Aggiungi a Home"
+        </div>
     </div>
-    
-    <button class="close-guide" onclick="closeInstallGuide()">HO CAPITO</button>
+
+    <div class="arrow-down">⬇️</div>
+
+    <!-- PASSO 3 -->
+    <div class="step-container">
+        <div class="step-number">3</div>
+        <div class="step-icon">✅</div>
+        <div class="step-title">Tocca AGGIUNGI in alto a destra</div>
+        <div class="step-desc">
+            Nella schermata che appare, conferma l'installazione
+        </div>
+        <div class="step-detail">
+            📍 Il pulsante <b>"Aggiungi"</b> è blu e si trova in alto a destra dello schermo
+        </div>
+    </div>
+
+    <div class="step-container" style="background: rgba(212,175,55,0.1); border-color: var(--gold);">
+        <div class="step-icon">🎉</div>
+        <div class="step-title">Fatto!</div>
+        <div class="step-desc">
+            L'app Titanium Barber ora apparirà sulla tua schermata Home come un'app normale
+        </div>
+    </div>
+
+    <button class="close-guide-btn" onclick="closeInstallGuide()">HO CAPITO, GRAZIE</button>
 </div>
 
 <div class="sync-status" id="syncStatus">⚡ Cloud Attivo</div>
@@ -793,14 +883,13 @@
     // Mostra banner appropriato
     if (!isStandalone) {
         if (isIOS) {
-            // iOS - mostra banner dopo 1 secondo
             setTimeout(() => {
                 document.getElementById('iosBanner').classList.add('show');
-            }, 1000);
+            }, 500);
         }
     }
     
-    // Android - ascolta evento beforeinstallprompt
+    // Android
     let deferredPrompt;
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
@@ -831,7 +920,6 @@
     
     function closeInstallGuide() {
         document.getElementById('installGuide').classList.remove('show');
-        document.getElementById('iosBanner').classList.remove('show');
     }
 
     // ==========================================
