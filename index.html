@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -11,10 +12,8 @@
     
     <title>Titanium Barber</title>
     
-    <!-- Icone per iOS -->
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect fill='%230a0a0a' width='180' height='180'/%3E%3Ctext x='90' y='115' font-size='100' text-anchor='middle' fill='%23d4af37'%3E⚡%3C/text%3E%3C/svg%3E">
     
-    <!-- Manifest PWA -->
     <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiVGl0YW5pdW0gQmFyYmVyIiwic2hvcnRfbmFtZSI6IlRpdGFuaXVtIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwYTBhMGEiLCJ0aGVtZV9jb2xvciI6IiMwYTBhMGEiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxOTIgMTkyJyUzRSUzQ3JlY3QgZmlsbD0nIzBhMGEwYScgd2lkdGg9JzE5MicgaGVpZ2h0PScxOTInLyUzRSUzQ3RleHQgeD0nOTYnIHk9JzEyMCcgZm9udC1zaXplPScxMDAnIHRleHQtYW5jaG9yPSdtaWRkbGUnIGZpbGw9JyNkNGFmMzcnJTNFIeKApiUzQy90ZXh0JTNFJTNDL3N2ZyUzRSIsInNpemVzIjoiMTkyeDE5MiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dfQ==">
     
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -31,23 +30,18 @@
             --danger: #dc3545;
             --safe-top: env(safe-area-inset-top);
             --safe-bottom: env(safe-area-inset-bottom);
-            --safe-left: env(safe-area-inset-left);
-            --safe-right: env(safe-area-inset-right);
         }
         
         * { 
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
         }
         
         html, body { 
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            height: 100%;
             overflow-x: hidden;
         }
         
@@ -55,25 +49,81 @@
             background: var(--bg); 
             color: var(--text); 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            padding: var(--safe-top) var(--safe-right) calc(100px + var(--safe-bottom)) var(--safe-left);
-            -webkit-font-smoothing: antialiased;
+            padding: var(--safe-top) 0 calc(100px + var(--safe-bottom)) 0;
         }
         
-        /* Install Banner PWA */
+        /* GUIDA INSTALLAZIONE iOS */
+        .install-guide {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 100000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .install-guide.show {
+            display: flex;
+        }
+        
+        .install-guide h3 {
+            color: var(--gold);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+        
+        .install-step {
+            background: var(--card);
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px 0;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .install-step .icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        
+        .install-step p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        
+        .install-guide .close-guide {
+            margin-top: 20px;
+            background: var(--gold);
+            color: #000;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Banner Android */
         .install-banner {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(135deg, var(--gold) 0%, #b8941f 100%);
+            background: var(--gold);
             color: #000;
             padding: 12px 16px;
             display: none;
             align-items: center;
             justify-content: space-between;
-            z-index: 10000;
+            z-index: 99999;
             font-weight: 600;
-            font-size: 0.9rem;
         }
         
         .install-banner.show {
@@ -87,8 +137,6 @@
             padding: 8px 16px;
             border-radius: 20px;
             font-weight: 700;
-            cursor: pointer;
-            font-size: 0.8rem;
         }
         
         .install-close {
@@ -96,11 +144,31 @@
             border: none;
             color: #000;
             font-size: 1.5rem;
-            cursor: pointer;
             margin-left: 10px;
         }
 
-        /* Header con safe area */
+        /* Pulsante guida iOS fisso */
+        .ios-install-btn {
+            position: fixed;
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gold);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            z-index: 997;
+            display: none;
+            box-shadow: 0 4px 15px rgba(212,175,55,0.4);
+        }
+        
+        .ios-install-btn.show {
+            display: block;
+        }
+
         nav { 
             background: rgba(0,0,0,0.98); 
             padding: 12px 16px; 
@@ -120,15 +188,10 @@
         .logo { 
             color: var(--gold); 
             font-weight: 900; 
-            letter-spacing: 1px;
             font-size: 1.2rem;
             display: flex;
             align-items: center;
             gap: 8px;
-        }
-        
-        .logo-icon {
-            font-size: 1.5rem;
         }
         
         .nav-btn { 
@@ -143,19 +206,11 @@
         }
 
         .container { 
-            width: 100%;
-            max-width: 100%;
-            margin: 0; 
             padding: 72px 12px 20px;
         }
         
-        .view { 
-            display: none; 
-            width: 100%;
-        }
-        .active { 
-            display: block; 
-        }
+        .view { display: none; }
+        .active { display: block; }
 
         .card { 
             background: var(--card); 
@@ -163,7 +218,6 @@
             padding: 16px; 
             border: 1px solid #333; 
             margin-bottom: 12px;
-            width: 100%;
         }
         
         .card h2 {
@@ -180,10 +234,9 @@
             text-transform: uppercase; 
             margin: 12px 0 6px; 
             display: block;
-            letter-spacing: 0.5px;
         }
         
-        input, select {
+        input {
             width: 100%; 
             padding: 14px; 
             background: #222; 
@@ -192,7 +245,6 @@
             border-radius: 10px; 
             margin-bottom: 10px; 
             font-size: 16px;
-            -webkit-appearance: none;
         }
         
         input:focus {
@@ -205,10 +257,7 @@
             gap: 10px;
             overflow-x: auto;
             padding: 4px 0 12px;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
-            width: 100%;
         }
         
         .service-scroll::-webkit-scrollbar {
@@ -225,8 +274,6 @@
             border-radius: 14px; 
             cursor: pointer; 
             text-align: center;
-            scroll-snap-align: start;
-            transition: all 0.2s;
         }
         
         .service-btn:active {
@@ -235,7 +282,7 @@
         
         .service-btn.active { 
             border-color: var(--gold); 
-            background: linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(212,175,55,0.05) 100%);
+            background: rgba(212,175,55,0.1);
         }
         
         .service-btn b { 
@@ -254,7 +301,6 @@
             display: grid; 
             grid-template-columns: repeat(4, 1fr); 
             gap: 6px; 
-            width: 100%;
         }
         
         .slot { 
@@ -322,27 +368,11 @@
             font-size: 1rem;
         }
         
-        .btn-confirm:active {
-            transform: scale(0.98);
-        }
-        
         .btn-confirm:disabled {
             background: #333;
             color: #666;
         }
 
-        .admin-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        
-        .admin-header h3 {
-            margin: 0;
-            font-size: 1rem;
-        }
-        
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -413,8 +443,6 @@
             border-bottom: 1px solid #222;
         }
         
-        .app-item:last-child { border-bottom: none; }
-        
         .app-info { flex: 1; min-width: 0; }
         
         .app-time {
@@ -442,7 +470,6 @@
             font-weight: 900;
             font-size: 1rem;
             margin-right: 8px;
-            white-space: nowrap;
         }
 
         .btn-del { 
@@ -457,7 +484,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
         }
         
         .btn-del.blue { background: var(--blue); }
@@ -596,7 +622,6 @@
             margin: 20px 0 12px;
         }
         
-        /* Splash screen per PWA */
         .splash {
             position: fixed;
             inset: 0;
@@ -643,27 +668,54 @@
 </head>
 <body>
 
-<!-- Splash Screen PWA -->
+<!-- Splash Screen -->
 <div class="splash" id="splash">
     <div class="splash-logo">⚡</div>
     <div class="splash-text">TITANIUM BARBER</div>
     <div class="splash-loading"></div>
 </div>
 
-<!-- Banner Installazione PWA -->
+<!-- Banner Android -->
 <div class="install-banner" id="installBanner">
-    <span>📲 Installa Titanium Barber sul tuo telefono</span>
+    <span>📲 Installa Titanium Barber</span>
     <div>
         <button class="install-btn" onclick="installPWA()">INSTALLA</button>
         <button class="install-close" onclick="closeInstallBanner()">×</button>
     </div>
 </div>
 
+<!-- Pulsante iOS -->
+<button class="ios-install-btn" id="iosInstallBtn" onclick="showInstallGuide()">
+    📲 Come installare su iPhone
+</button>
+
+<!-- Guida Installazione iOS -->
+<div class="install-guide" id="installGuide">
+    <h3>Installa su iPhone</h3>
+    
+    <div class="install-step">
+        <div class="icon">1️⃣</div>
+        <p>Tocca il pulsante <b>Condividi</b><br>in basso su Safari</p>
+    </div>
+    
+    <div class="install-step">
+        <div class="icon">2️⃣</div>
+        <p>Scorri e seleziona<br><b>"Aggiungi a Home"</b></p>
+    </div>
+    
+    <div class="install-step">
+        <div class="icon">3️⃣</div>
+        <p>Tocca <b>"Aggiungi"</b><br>in alto a destra</p>
+    </div>
+    
+    <button class="close-guide" onclick="closeInstallGuide()">HO CAPITO</button>
+</div>
+
 <div class="sync-status" id="syncStatus">⚡ Cloud Attivo</div>
 
 <nav>
     <div class="logo">
-        <span class="logo-icon">⚡</span>
+        <span>⚡</span>
         TITANIUM
     </div>
     <button class="nav-btn" id="toggleBtn" onclick="toggleView()">ADMIN</button>
@@ -732,8 +784,8 @@
         </div>
 
         <div class="card">
-            <div class="admin-header">
-                <h3 style="color:var(--success)">📋 Servizi</h3>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <h3 style="color:var(--success); margin:0;">📋 Servizi</h3>
                 <button onclick="openServiceModal()" class="nav-btn" style="padding: 8px 12px; font-size: 0.75rem;">+ NUOVO</button>
             </div>
             <div id="dbList"></div>
@@ -778,53 +830,62 @@
 
 <script>
     // ==========================================
-    // PWA - INSTALLAZIONE
+    // PWA INSTALLAZIONE - iOS & ANDROID
     // ==========================================
-    let deferredPrompt;
-    const installBanner = document.getElementById('installBanner');
     
-    // Nascondi splash screen dopo 1.5 secondi
+    let deferredPrompt;
+    
+    // Rileva iOS
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    
     window.addEventListener('load', () => {
         setTimeout(() => {
             document.getElementById('splash').classList.add('hidden');
         }, 1500);
+        
+        // Mostra guida iOS se non installata
+        if (isIOS && !isStandalone) {
+            setTimeout(() => {
+                document.getElementById('iosInstallBtn').classList.add('show');
+            }, 2000);
+        }
     });
     
-    // Gestione installazione PWA
+    // Banner Android
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        installBanner.classList.add('show');
+        document.getElementById('installBanner').classList.add('show');
     });
     
     function installPWA() {
-        if (!deferredPrompt) {
-            // Per iOS: mostra istruzioni manuali
-            alert('Per installare su iOS:\n1. Tocca il pulsante Condividi (📤)\n2. Scorri e seleziona "Aggiungi a Home"');
-            return;
-        }
-        
+        if (!deferredPrompt) return;
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choiceResult) => {
             if (choiceResult.outcome === 'accepted') {
-                console.log('PWA installata');
-                installBanner.classList.remove('show');
+                document.getElementById('installBanner').classList.remove('show');
             }
             deferredPrompt = null;
         });
     }
     
     function closeInstallBanner() {
-        installBanner.classList.remove('show');
+        document.getElementById('installBanner').classList.remove('show');
     }
     
-    // Se già installata, nascondi banner
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-        installBanner.style.display = 'none';
+    // Guida iOS
+    function showInstallGuide() {
+        document.getElementById('installGuide').classList.add('show');
+    }
+    
+    function closeInstallGuide() {
+        document.getElementById('installGuide').classList.remove('show');
+        document.getElementById('iosInstallBtn').classList.remove('show');
     }
 
     // ==========================================
-    // FIREBASE CONFIG
+    // FIREBASE
     // ==========================================
     const firebaseConfig = {
         apiKey: "AIzaSyANxYpIqye8gjCJdu-LboxX4OA6AB_0T8E",
@@ -887,12 +948,8 @@
     appointmentsRef.on('value', (snapshot) => {
         const data = snapshot.val();
         appointments = data ? Object.entries(data).map(([key, val]) => ({...val, firebaseKey: key})) : [];
-        if (!isAdminMode && currentDateFilter) {
-            loadSlots();
-        }
-        if (isAdminMode) {
-            updateAdmin();
-        }
+        if (!isAdminMode && currentDateFilter) loadSlots();
+        if (isAdminMode) updateAdmin();
         showSync();
     });
 
@@ -923,10 +980,8 @@
                 document.querySelectorAll('.service-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active'); 
                 selectedS = s; 
-                
                 document.getElementById('durationHint').style.display = 'block';
                 document.getElementById('durationText').textContent = `${s.duration} min (occupa ${s.duration / 15} slot)`;
-                
                 loadSlots();
             };
             grid.appendChild(btn);
@@ -1008,7 +1063,6 @@
         }
         
         promise.then(() => {
-            console.log("Servizio salvato");
             closeModal();
         }).catch((error) => {
             alert("Errore: " + error.message);
@@ -1059,15 +1113,9 @@
         
         for (let current = start; current < end; current += slotDuration) {
             const timeStr = minutesToTime(current);
-            
-            const isBusy = occupiedRanges.some(range => 
-                current >= range.start && current < range.end
-            );
-            
+            const isBusy = occupiedRanges.some(range => current >= range.start && current < range.end);
             const serviceEnd = current + selectedS.duration;
-            const hasSpace = !occupiedRanges.some(range => 
-                (current < range.end && serviceEnd > range.start)
-            );
+            const hasSpace = !occupiedRanges.some(range => (current < range.end && serviceEnd > range.start));
             
             const div = document.createElement('div');
             div.className = "slot";
@@ -1087,10 +1135,8 @@
                     updateSummary();
                 };
             }
-            
             grid.appendChild(div);
         }
-        
         updateSummary();
     }
 
