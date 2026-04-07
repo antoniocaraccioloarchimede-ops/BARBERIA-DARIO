@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -8,13 +7,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Titanium Barber">
-    <meta name="description" content="CRM per barbieri - Gestione appuntamenti e servizi">
     
     <title>Titanium Barber</title>
     
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect fill='%230a0a0a' width='180' height='180'/%3E%3Ctext x='90' y='115' font-size='100' text-anchor='middle' fill='%23d4af37'%3E⚡%3C/text%3E%3C/svg%3E">
-    
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiVGl0YW5pdW0gQmFyYmVyIiwic2hvcnRfbmFtZSI6IlRpdGFuaXVtIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwYTBhMGEiLCJ0aGVtZV9jb2xvciI6IiMwYTBhMGEiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxOTIgMTkyJyUzRSUzQ3JlY3QgZmlsbD0nIzBhMGEwYScgd2lkdGg9JzE5MicgaGVpZ2h0PScxOTInLyUzRSUzQ3RleHQgeD0nOTYnIHk9JzEyMCcgZm9udC1zaXplPScxMDAnIHRleHQtYW5jaG9yPSdtaWRkbGUnIGZpbGw9JyNkNGFmMzcnJTNFIeKApiUzQy90ZXh0JTNFJTNDL3N2ZyUzRSIsInNpemVzIjoiMTkyeDE5MiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dfQ==">
     
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
@@ -52,14 +48,14 @@
             padding: var(--safe-top) 0 calc(100px + var(--safe-bottom)) 0;
         }
         
-        /* GUIDA INSTALLAZIONE iOS */
+        /* GUIDA INSTALLAZIONE iOS - SEMPRE VISIBILE INIZIALMENTE */
         .install-guide {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.95);
+            background: rgba(0,0,0,0.98);
             z-index: 100000;
             display: none;
             flex-direction: column;
@@ -75,43 +71,79 @@
         
         .install-guide h3 {
             color: var(--gold);
-            font-size: 1.3rem;
-            margin-bottom: 20px;
+            font-size: 1.4rem;
+            margin-bottom: 30px;
         }
         
         .install-step {
             background: var(--card);
-            border: 1px solid #333;
-            border-radius: 12px;
-            padding: 15px;
+            border: 2px solid var(--gold);
+            border-radius: 16px;
+            padding: 20px;
             margin: 10px 0;
             width: 100%;
-            max-width: 300px;
+            max-width: 320px;
         }
         
         .install-step .icon {
-            font-size: 2rem;
-            margin-bottom: 8px;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
         }
         
         .install-step p {
             margin: 0;
-            font-size: 0.9rem;
+            font-size: 1rem;
+            line-height: 1.4;
         }
         
         .install-guide .close-guide {
-            margin-top: 20px;
+            margin-top: 30px;
             background: var(--gold);
             color: #000;
             border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-weight: 700;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 1.1rem;
             cursor: pointer;
         }
 
+        /* Banner fisso iOS in alto */
+        .ios-banner {
+            position: fixed;
+            top: max(60px, var(--safe-top));
+            left: 10px;
+            right: 10px;
+            background: var(--gold);
+            color: #000;
+            padding: 12px 16px;
+            border-radius: 12px;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        
+        .ios-banner.show {
+            display: flex;
+        }
+        
+        .ios-banner button {
+            background: #000;
+            color: var(--gold);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+
         /* Banner Android */
-        .install-banner {
+        .android-banner {
             position: fixed;
             top: 0;
             left: 0;
@@ -126,47 +158,17 @@
             font-weight: 600;
         }
         
-        .install-banner.show {
+        .android-banner.show {
             display: flex;
         }
         
-        .install-btn {
+        .android-banner button {
             background: #000;
             color: var(--gold);
             border: none;
             padding: 8px 16px;
             border-radius: 20px;
             font-weight: 700;
-        }
-        
-        .install-close {
-            background: none;
-            border: none;
-            color: #000;
-            font-size: 1.5rem;
-            margin-left: 10px;
-        }
-
-        /* Pulsante guida iOS fisso */
-        .ios-install-btn {
-            position: fixed;
-            top: 70px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--gold);
-            color: #000;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            z-index: 997;
-            display: none;
-            box-shadow: 0 4px 15px rgba(212,175,55,0.4);
-        }
-        
-        .ios-install-btn.show {
-            display: block;
         }
 
         nav { 
@@ -621,91 +623,39 @@
             font-size: 1rem;
             margin: 20px 0 12px;
         }
-        
-        .splash {
-            position: fixed;
-            inset: 0;
-            background: var(--bg);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 99999;
-            transition: opacity 0.5s;
-        }
-        
-        .splash.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        .splash-logo {
-            font-size: 5rem;
-            margin-bottom: 20px;
-        }
-        
-        .splash-text {
-            color: var(--gold);
-            font-size: 1.5rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-        }
-        
-        .splash-loading {
-            width: 40px;
-            height: 40px;
-            border: 3px solid #333;
-            border-top-color: var(--gold);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-top: 30px;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
     </style>
 </head>
 <body>
 
-<!-- Splash Screen -->
-<div class="splash" id="splash">
-    <div class="splash-logo">⚡</div>
-    <div class="splash-text">TITANIUM BARBER</div>
-    <div class="splash-loading"></div>
+<!-- Banner iOS fisso -->
+<div class="ios-banner" id="iosBanner">
+    <span>📲 Installa questa app sul tuo iPhone</span>
+    <button onclick="showInstallGuide()">COME FARE</button>
 </div>
 
 <!-- Banner Android -->
-<div class="install-banner" id="installBanner">
+<div class="android-banner" id="androidBanner">
     <span>📲 Installa Titanium Barber</span>
-    <div>
-        <button class="install-btn" onclick="installPWA()">INSTALLA</button>
-        <button class="install-close" onclick="closeInstallBanner()">×</button>
-    </div>
+    <button onclick="installPWA()">INSTALLA</button>
 </div>
-
-<!-- Pulsante iOS -->
-<button class="ios-install-btn" id="iosInstallBtn" onclick="showInstallGuide()">
-    📲 Come installare su iPhone
-</button>
 
 <!-- Guida Installazione iOS -->
 <div class="install-guide" id="installGuide">
-    <h3>Installa su iPhone</h3>
+    <h3>Come installare su iPhone</h3>
     
     <div class="install-step">
         <div class="icon">1️⃣</div>
-        <p>Tocca il pulsante <b>Condividi</b><br>in basso su Safari</p>
+        <p>Tocca il pulsante <b>Condivisi</b><br>(il quadrato con la freccia in basso)</p>
     </div>
     
     <div class="install-step">
         <div class="icon">2️⃣</div>
-        <p>Scorri e seleziona<br><b>"Aggiungi a Home"</b></p>
+        <p>Scorri il menu e seleziona<br><b>"Aggiungi a Home"</b></p>
     </div>
     
     <div class="install-step">
         <div class="icon">3️⃣</div>
-        <p>Tocca <b>"Aggiungi"</b><br>in alto a destra</p>
+        <p>Tocca <b>"Aggiungi"</b> in alto a destra</p>
     </div>
     
     <button class="close-guide" onclick="closeInstallGuide()">HO CAPITO</button>
@@ -830,48 +780,48 @@
 
 <script>
     // ==========================================
-    // PWA INSTALLAZIONE - iOS & ANDROID
+    // RILEVAMENTO DISPOSITIVO
     // ==========================================
     
-    let deferredPrompt;
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isIOS = /iphone|ipad|ipod/.test(userAgent);
+    const isAndroid = /android/.test(userAgent);
+    const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
     
-    // Rileva iOS
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    console.log('iOS:', isIOS, 'Android:', isAndroid, 'Standalone:', isStandalone);
     
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            document.getElementById('splash').classList.add('hidden');
-        }, 1500);
-        
-        // Mostra guida iOS se non installata
-        if (isIOS && !isStandalone) {
+    // Mostra banner appropriato
+    if (!isStandalone) {
+        if (isIOS) {
+            // iOS - mostra banner dopo 1 secondo
             setTimeout(() => {
-                document.getElementById('iosInstallBtn').classList.add('show');
-            }, 2000);
+                document.getElementById('iosBanner').classList.add('show');
+            }, 1000);
         }
-    });
+    }
     
-    // Banner Android
+    // Android - ascolta evento beforeinstallprompt
+    let deferredPrompt;
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        document.getElementById('installBanner').classList.add('show');
+        if (!isStandalone) {
+            document.getElementById('androidBanner').classList.add('show');
+        }
     });
     
     function installPWA() {
-        if (!deferredPrompt) return;
+        if (!deferredPrompt) {
+            alert('Tocca il menu (⋮) e seleziona "Aggiungi a schermata Home"');
+            return;
+        }
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choiceResult) => {
             if (choiceResult.outcome === 'accepted') {
-                document.getElementById('installBanner').classList.remove('show');
+                document.getElementById('androidBanner').classList.remove('show');
             }
             deferredPrompt = null;
         });
-    }
-    
-    function closeInstallBanner() {
-        document.getElementById('installBanner').classList.remove('show');
     }
     
     // Guida iOS
@@ -881,7 +831,7 @@
     
     function closeInstallGuide() {
         document.getElementById('installGuide').classList.remove('show');
-        document.getElementById('iosInstallBtn').classList.remove('show');
+        document.getElementById('iosBanner').classList.remove('show');
     }
 
     // ==========================================
