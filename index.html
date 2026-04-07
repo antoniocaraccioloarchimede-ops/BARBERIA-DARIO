@@ -3,9 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Titanium Barber - Cloud</title>
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Titanium Barber">
+    <meta name="description" content="CRM per barbieri - Gestione appuntamenti e servizi">
+    
+    <title>Titanium Barber</title>
+    
+    <!-- Icone per iOS -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect fill='%230a0a0a' width='180' height='180'/%3E%3Ctext x='90' y='115' font-size='100' text-anchor='middle' fill='%23d4af37'%3E⚡%3C/text%3E%3C/svg%3E">
+    
+    <!-- Manifest PWA -->
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiVGl0YW5pdW0gQmFyYmVyIiwic2hvcnRfbmFtZSI6IlRpdGFuaXVtIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwYTBhMGEiLCJ0aGVtZV9jb2xvciI6IiMwYTBhMGEiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxOTIgMTkyJyUzRSUzQ3JlY3QgZmlsbD0nIzBhMGEwYScgd2lkdGg9JzE5MicgaGVpZ2h0PScxOTInLyUzRSUzQ3RleHQgeD0nOTYnIHk9JzEyMCcgZm9udC1zaXplPScxMDAnIHRleHQtYW5jaG9yPSdtaWRkbGUnIGZpbGw9JyNkNGFmMzcnJTNFIeKApiUzQy90ZXh0JTNFJTNDL3N2ZyUzRSIsInNpemVzIjoiMTkyeDE5MiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dfQ==">
+    
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
     <style>
         :root { 
             --gold: #d4af37; 
@@ -15,29 +29,78 @@
             --text: #e0e0e0; 
             --success: #28a745; 
             --danger: #dc3545;
+            --safe-top: env(safe-area-inset-top);
             --safe-bottom: env(safe-area-inset-bottom);
+            --safe-left: env(safe-area-inset-left);
+            --safe-right: env(safe-area-inset-right);
         }
         
         * { 
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
         
         html, body { 
             margin: 0;
             padding: 0;
-            min-height: 100%;
+            min-height: 100vh;
+            height: 100%;
+            overflow-x: hidden;
         }
         
         body { 
             background: var(--bg); 
             color: var(--text); 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            padding-bottom: calc(100px + var(--safe-bottom));
-            overflow-x: hidden;
+            padding: var(--safe-top) var(--safe-right) calc(100px + var(--safe-bottom)) var(--safe-left);
+            -webkit-font-smoothing: antialiased;
         }
         
+        /* Install Banner PWA */
+        .install-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, var(--gold) 0%, #b8941f 100%);
+            color: #000;
+            padding: 12px 16px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 10000;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .install-banner.show {
+            display: flex;
+        }
+        
+        .install-btn {
+            background: #000;
+            color: var(--gold);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .install-close {
+            background: none;
+            border: none;
+            color: #000;
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        /* Header con safe area */
         nav { 
             background: rgba(0,0,0,0.98); 
             padding: 12px 16px; 
@@ -51,6 +114,7 @@
             right: 0;
             z-index: 1000;
             height: 56px;
+            padding-top: max(12px, var(--safe-top));
         }
         
         .logo { 
@@ -58,6 +122,13 @@
             font-weight: 900; 
             letter-spacing: 1px;
             font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo-icon {
+            font-size: 1.5rem;
         }
         
         .nav-btn { 
@@ -233,7 +304,7 @@
             left: 0;
             right: 0;
             padding: 12px;
-            padding-bottom: calc(12px + var(--safe-bottom));
+            padding-bottom: max(12px, var(--safe-bottom));
             background: linear-gradient(to top, rgba(10,10,10,1) 0%, rgba(10,10,10,0.95) 100%);
             z-index: 999;
             border-top: 1px solid #333;
@@ -406,7 +477,6 @@
         
         .db-actions { display: flex; gap: 6px; }
 
-        /* MODAL CORRETTO - NO CLICK FUORI CHE CHIUDE */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -440,7 +510,6 @@
             color: var(--gold);
         }
 
-        /* Bottone chiudi X in alto */
         .modal-close-x {
             position: absolute;
             top: 15px;
@@ -526,14 +595,77 @@
             font-size: 1rem;
             margin: 20px 0 12px;
         }
+        
+        /* Splash screen per PWA */
+        .splash {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            transition: opacity 0.5s;
+        }
+        
+        .splash.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .splash-logo {
+            font-size: 5rem;
+            margin-bottom: 20px;
+        }
+        
+        .splash-text {
+            color: var(--gold);
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+        
+        .splash-loading {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #333;
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-top: 30px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
 
+<!-- Splash Screen PWA -->
+<div class="splash" id="splash">
+    <div class="splash-logo">⚡</div>
+    <div class="splash-text">TITANIUM BARBER</div>
+    <div class="splash-loading"></div>
+</div>
+
+<!-- Banner Installazione PWA -->
+<div class="install-banner" id="installBanner">
+    <span>📲 Installa Titanium Barber sul tuo telefono</span>
+    <div>
+        <button class="install-btn" onclick="installPWA()">INSTALLA</button>
+        <button class="install-close" onclick="closeInstallBanner()">×</button>
+    </div>
+</div>
+
 <div class="sync-status" id="syncStatus">⚡ Cloud Attivo</div>
 
 <nav>
-    <div class="logo">⚡ TITANIUM</div>
+    <div class="logo">
+        <span class="logo-icon">⚡</span>
+        TITANIUM
+    </div>
     <button class="nav-btn" id="toggleBtn" onclick="toggleView()">ADMIN</button>
 </nav>
 
@@ -621,7 +753,6 @@
     </button>
 </div>
 
-<!-- MODAL CORRETTO - CON BOTTONE CHIUDI DEDICATO -->
 <div class="modal-overlay" id="serviceModal">
     <div class="modal-content">
         <button class="modal-close-x" onclick="closeModal()">×</button>
@@ -646,6 +777,55 @@
 </div>
 
 <script>
+    // ==========================================
+    // PWA - INSTALLAZIONE
+    // ==========================================
+    let deferredPrompt;
+    const installBanner = document.getElementById('installBanner');
+    
+    // Nascondi splash screen dopo 1.5 secondi
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            document.getElementById('splash').classList.add('hidden');
+        }, 1500);
+    });
+    
+    // Gestione installazione PWA
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        installBanner.classList.add('show');
+    });
+    
+    function installPWA() {
+        if (!deferredPrompt) {
+            // Per iOS: mostra istruzioni manuali
+            alert('Per installare su iOS:\n1. Tocca il pulsante Condividi (📤)\n2. Scorri e seleziona "Aggiungi a Home"');
+            return;
+        }
+        
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('PWA installata');
+                installBanner.classList.remove('show');
+            }
+            deferredPrompt = null;
+        });
+    }
+    
+    function closeInstallBanner() {
+        installBanner.classList.remove('show');
+    }
+    
+    // Se già installata, nascondi banner
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+        installBanner.style.display = 'none';
+    }
+
+    // ==========================================
+    // FIREBASE CONFIG
+    // ==========================================
     const firebaseConfig = {
         apiKey: "AIzaSyANxYpIqye8gjCJdu-LboxX4OA6AB_0T8E",
         authDomain: "titanium-barber.firebaseapp.com",
@@ -693,9 +873,9 @@
             services = Object.entries(data).map(([key, val]) => ({...val, firebaseKey: key}));
         } else {
             const defaultServices = {
-                'serv1': { id: 1, name: 'Taglio', price: 20, duration: 30 },
-                'serv2': { id: 2, name: 'Barba', price: 15, duration: 20 },
-                'serv3': { id: 3, name: 'Taglio + Barba', price: 30, duration: 45 }
+                'serv1': { name: 'Taglio', price: 20, duration: 30 },
+                'serv2': { name: 'Barba', price: 15, duration: 20 },
+                'serv3': { name: 'Taglio + Barba', price: 30, duration: 45 }
             };
             servicesRef.set(defaultServices);
             services = Object.entries(defaultServices).map(([key, val]) => ({...val, firebaseKey: key}));
@@ -765,10 +945,6 @@
         });
     }
 
-    // ==========================================
-    // MODAL CORRETTO - APERTURA E CHIUSURA
-    // ==========================================
-    
     function openServiceModal() {
         document.getElementById('serviceModal').classList.add('active');
         document.getElementById('newSName').focus();
@@ -776,7 +952,6 @@
 
     function closeModal() {
         document.getElementById('serviceModal').classList.remove('active');
-        // Reset campi dopo breve delay per l'animazione
         setTimeout(() => {
             document.getElementById('editId').value = "";
             document.getElementById('newSName').value = "";
@@ -785,17 +960,12 @@
         }, 300);
     }
 
-    // ==========================================
-    // SALVA SERVIZIO - CORRETTO
-    // ==========================================
-    
     function saveService() {
         const firebaseKey = document.getElementById('editId').value;
         const name = document.getElementById('newSName').value.trim();
         const priceVal = document.getElementById('newSPrice').value;
         const durVal = document.getElementById('newSDuration').value;
         
-        // Validazione
         if(!name) {
             alert("Inserisci il nome del servizio");
             document.getElementById('newSName').focus();
@@ -824,30 +994,24 @@
             duration: roundedDur
         };
         
-        // MOSTRA LOADING
         const btn = document.querySelector('.modal-content .btn-confirm');
         const originalText = btn.textContent;
         btn.textContent = "💾 Salvataggio...";
         btn.disabled = true;
         
-        // SALVA SU FIREBASE
         let promise;
         if(firebaseKey) {
-            // MODIFICA ESISTENTE
             promise = servicesRef.child(firebaseKey).update(serviceData);
         } else {
-            // NUOVO SERVIZIO
             const newKey = 'serv' + Date.now();
             promise = servicesRef.child(newKey).set(serviceData);
         }
         
-        // Gestisci risposta Firebase
         promise.then(() => {
-            console.log("Servizio salvato con successo");
+            console.log("Servizio salvato");
             closeModal();
         }).catch((error) => {
-            console.error("Errore salvataggio:", error);
-            alert("Errore nel salvataggio: " + error.message);
+            alert("Errore: " + error.message);
         }).finally(() => {
             btn.textContent = originalText;
             btn.disabled = false;
@@ -856,25 +1020,17 @@
 
     function editService(key) {
         let s = services.find(serv => serv.firebaseKey === key);
-        if(!s) {
-            alert("Servizio non trovato");
-            return;
-        }
-        
-        // Popola campi
+        if(!s) return;
         document.getElementById('editId').value = s.firebaseKey;
         document.getElementById('newSName').value = s.name;
         document.getElementById('newSPrice').value = s.price;
         document.getElementById('newSDuration').value = s.duration;
-        
-        // Apri modal
         openServiceModal();
     }
 
     function deleteService(key) {
         const serv = services.find(s => s.firebaseKey === key);
         if(!serv) return;
-        
         if(confirm(`Eliminare "${serv.name}"?`)) {
             servicesRef.child(key).remove();
         }
